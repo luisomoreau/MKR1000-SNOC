@@ -31,9 +31,17 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  msg[0]=0xCA;
-  msg[1]=0xFE;
-  sendMessage(msg);
+  msg[0]=0xC0;
+  msg[1]=0xFF;
+  msg[2]=0xEE;
+
+  sendMessage(msg, 3);
+
+  // In the ETSI zone, due to the reglementation, an object cannot emit more than 1% of the time hourly
+  // So, 1 hour = 3600 sec
+  // 1% of 3600 sec = 36 sec
+  // A Sigfox message takes 6 seconds to emit 
+  // 36 sec / 6 sec = 6 messages per hours -> 1 every 10 minutes
   delay(10*60*1000);
 }
 
@@ -95,14 +103,18 @@ String getPAC(){
 
 
 //Send Sigfox Message
-void sendMessage(uint8_t msg[]){
+void sendMessage(uint8_t msg[], int size){
 
   String status = "";
   char output;
 
   Serial1.print("AT$SF=");
-  for(int i= 0;i<sizeof(msg);i++){
+  for(int i= 0;i<size;i++){
     Serial1.print(String(msg[i], HEX));
+    if(DEBUG){
+      Serial.print("Byte:");
+      Serial.println(msg[i], HEX);
+    }
   }
   
   Serial1.print("\r");
