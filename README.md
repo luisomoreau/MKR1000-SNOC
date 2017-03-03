@@ -182,6 +182,9 @@ Run this code and you should see the following results in the console:
 
 ![Serial Console](doc/SerialConsole.png)
 
+## See your messages in Sigfox Backend
+
+![Sigfox Backend](doc/SigfoxBackend.png)
 
 ## Additional content
 
