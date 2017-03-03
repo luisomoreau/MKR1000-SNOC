@@ -89,7 +89,7 @@ String getPAC(){
   
   while(Serial1.available()){
     output = Serial1.read();
-    pac += output;
+    pac += "X";
     delay(10);
   }
   
